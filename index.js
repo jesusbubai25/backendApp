@@ -14,32 +14,25 @@ const data = {
 }
 
 app.get("/test", async (req, res) => {
-
     return res.status(200).json({ message: "Getting Response", sucess: true })
-
 })
 
 app.get("/test2", async (req, res) => {
     res.send("Hi'there we are getting response")
-
-
 })
 
 app.get("/getData", async (req, res) => {
-
     return res.status(200).json({ message: `Name: ${data.name}, qualification: ${data.qualification}, age is ${data.age}`, sucess: true })
-
 })
+
 app.post("/postData", async (req, res) => {
     try {
         const { name, age } = req.body;
         return res.status(200).json({ message: `Your name is ${name} and Your age is ${age}`, sucess: true })
     } catch (error) {
         return res.status(400).json({ error: error.message, sucess: false })
-
     }
 })
-
 
 process.on("uncaughtException", err => {
     console.log("Server is closing due to uncaughtException occured!")
