@@ -6,7 +6,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 app.use(cors())
 app.use(require('express').json());
 
-const PORT = 8443;
+const PORT = 8000;
 const data = {
     name: "Sidhant Nahak",
     qualification: "B-tech",
