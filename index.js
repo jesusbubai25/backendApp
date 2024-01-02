@@ -1,6 +1,7 @@
 const app = require('express')();
 const bodyparser = require('body-parser')
 const cors = require('cors')
+const mysql = require('mysql2')
 
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(cors())
@@ -12,7 +13,34 @@ const data = {
     qualification: "B-tech",
     age: 22
 }
+const pool = mysql.createPool({
+    host: "141.136.43.151",
+    user: 'u188495358_pvAPMDB',
+    password: '9830pvAPM9831@@',
+    database: 'u188495358_pvAPMDB',
+    waitForConnections: true,
+    multipleStatements: true
+})
+const promisePool = pool.promise();
+app.get("/inverter-efficiency", async (req, res) => {
+    let connection;
+    try {
+        connection = await promisePool.getConnection()
+        await connection.beginTransaction();
+        const [result, fields] = await connection.query("select * from inverterDetails")
+        await connection.commit();
+        return res.status(200).json({ result: result, sucess: true });
 
+    } catch (error) {
+        console.log(error.message);
+        return res.status(400).json({ error: error.message, sucess: false });
+
+    }
+     finally {
+        // connection?.release();
+        console.log("request completed!")
+    }
+})
 app.get("/test", async (req, res) => {
     return res.status(200).json({ message: "Getting Response", sucess: true })
 })
