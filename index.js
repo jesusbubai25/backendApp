@@ -27,6 +27,20 @@ const pool = mysql.createPool({
     multipleStatements: true
 })
 const promisePool = pool.promise();
+
+app.get("/connect-to-database",async(req,res)=>{
+    await promisePool.getConnection()
+    .then((result)=>{
+        console.log("connected to database! ")
+        return res.status(200).json({message:"Connected to database!",sucess:true})
+    }
+    )
+    .catch((err)=>{
+        console.log(err.message);
+        return res.status(400).json({error:err.message,sucess:false})
+    })
+
+})
 app.get("/inverter-efficiency", async (req, res) => {
     let connection;
     try {
