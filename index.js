@@ -7,10 +7,15 @@ app.use(bodyparser.urlencoded({ extended: true }));
 app.use(cors())
 app.use(require('express').json());
 
-const PORT = 8443;
+const PORT = 8000;
 const data = {
     name: "Sidhant Nahak",
     qualification: "B-tech",
+    age: 22
+}
+const data2 = {
+    name: "xyz",
+    qualification: "xyz",
     age: 22
 }
 const pool = mysql.createPool({
@@ -51,6 +56,9 @@ app.get("/test2", async (req, res) => {
 
 app.get("/getData", async (req, res) => {
     return res.status(200).json({ message: `Name: ${data.name}, qualification: ${data.qualification}, age is ${data.age}`, sucess: true })
+})
+app.get("/getData2", async (req, res) => {
+    return res.status(200).json({ message: `Name: ${data2.name}, qualification: ${data2.qualification}, age is ${data2.age}`, sucess: true })
 })
 
 app.post("/postData", async (req, res) => {
